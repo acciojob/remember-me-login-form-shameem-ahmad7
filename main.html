@@ -1,16 +1,76 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <!-- Login Form -->
+  <h1>Login Form</h1>
+  <form id="loginForm">
+    <!-- Username -->
+    <input type="text" id="username" placeholder="Username" required><br><br>
+    <!-- Password -->
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    <!-- Remember Me -->
+    <input type="checkbox" id="checkbox">
+    <label for="checkbox">Remember me</label><br><br>
+    <!-- Submit Button -->
+    <input type="submit" id="submit" value="Submit">
+  </form>
 
+  <!-- Existing User Button (Initially Hidden) -->
+  <button id="existing" style="display: none;">Login as existing user</button>
+
+  <!-- JavaScript -->
+  <script>
+    // Form and Buttons
+    const loginForm = document.getElementById('loginForm');
+    const existingButton = document.getElementById('existing');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const checkbox = document.getElementById('checkbox');
+
+    // Check if user details are already saved in local storage
+    const savedUsername = localStorage.getItem('username');
+    const savedPassword = localStorage.getItem('password');
+
+    if (savedUsername && savedPassword) {
+      // Show the "Login as existing user" button
+      existingButton.style.display = 'inline-block';
+    }
+
+    // Submit Form
+    loginForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+
+      if (checkbox.checked) {
+        // Save details in local storage if "Remember me" is checked
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+      } else {
+        // Remove details if "Remember me" is unchecked
+        localStorage.removeItem('username');
+        localStorage.removeItem('password');
+      }
+
+      // Show alert with the username
+      alert(`Logged in as ${username}`);
+
+      // Check if the "existing" button should be displayed
+      if (localStorage.getItem('username') && localStorage.getItem('password')) {
+        existingButton.style.display = 'inline-block';
+      }
+    });
+
+    // Login as Existing User
+    existingButton.addEventListener('click', () => {
+      alert(`Logged in as ${savedUsername}`);
+    });
+  </script>
 </body>
-
 </html>
